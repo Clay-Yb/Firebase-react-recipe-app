@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import Modal from './components/Modal';
+import Recipe from './components/Recipe';
+
+import { useGlobalContext } from './ContextProvider';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const { isModal, handleModal, recipe } = useGlobalContext();
+	return (
+		<>
+			<div className="App container">
+				{isModal ? <Modal /> : null}
+				<div className="app_header">
+					<h1>My Recipes</h1>
+					<button className="btn" onClick={() => handleModal('open')}>
+						Add Recipe
+					</button>
+				</div>
+				<div className="recipe_container ">
+					{recipe?.map((item) => (
+						<Recipe key={item.id} {...item} />
+					))}
+				</div>
+			</div>
+		</>
+	);
 }
 
 export default App;
